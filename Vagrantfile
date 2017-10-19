@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "envimation/ubuntu-xenial-docker"
+  config.vm.box = "ubuntu/xenial64"
 
 
   config.vm.define "vm1" do |vm1|
@@ -28,15 +28,21 @@ Vagrant.configure("2") do |config|
 	     apt-get install salt-master salt-minion python-pygit2 python-git --yes
              echo "open_mode: True" >> /etc/salt/master #we don't care about security
              echo "auto_accept: True" >> /etc/salt/master #we don't care about security
-             echo "file_roots:\n  base:\n    - /srv/salt" >> /etc/salt/master
-             mkdir -p /srv/salt
-             cd /src/salt
+             echo "file_roots:\n  base:\n    - /srv/salt\n    - /srv/formulas/hostsfile-formula\n    - /srv/formulas/openssh-formula\n    - /srv/formulas/docker-formula\n" >> /etc/salt/master
+             mkdir -p /srv/formulas
+             cd /srv/formulas
              git clone https://github.com/saltstack-formulas/hostsfile-formula.git
+	     git clone https://github.com/saltstack-formulas/openssh-formula.git
+             git clone https://github.com/saltstack-formulas/docker-formula.git
 
+             mkdir /srv/salt/
+             echo 'base:\n  "*":\n    - hostsfile\n    - openssh\n    - docker' > /srv/salt/top.sls
+
+
+	     echo "rejected_retry: True" >> /etc/salt/minion
+             echo "mine_functions:\n  network.interfaces: []\n  network.ip_addrs:\n    - enp0s8\nmine_interval: 2"  >> /etc/salt/minion
 
              service salt-master restart
-	     echo "rejected_retry: True" >> /etc/salt/minion
-             echo "mine_functions:\n  network.interfaces: []\n  network.ip_addrs:\n    - eth1\nmine_interval: 2"  >> /etc/salt/minion
 
 	     service salt-minion restart
       SHELL
@@ -44,7 +50,7 @@ Vagrant.configure("2") do |config|
   end
   
 
-  (2..4).each do |i|
+  (2..2).each do |i|
 	  config.vm.define "vm%d" % [ i ] do |node|
 
 	     node.vm.hostname="vm%d" % [i]
