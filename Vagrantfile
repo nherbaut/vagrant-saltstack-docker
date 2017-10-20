@@ -65,7 +65,7 @@ Vagrant.configure("2") do |config|
 	             apt-get update
 	             apt-get install salt-minion --yes
 		     echo "rejected_retry: True" >> /etc/salt/minion
-                     echo "mine_functions:\n  network.interfaces: []\n  network.ip_addrs:\n    - eth1\nmine_interval: 2"  >> /etc/salt/minion
+                     echo "mine_functions:\n  network.interfaces: []\n  network.ip_addrs:\n    - enp0s8\nmine_interval: 2"  >> /etc/salt/minion
                      service salt-minion restart
 
              
