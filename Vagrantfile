@@ -50,7 +50,7 @@ Vagrant.configure("2") do |config|
   end
   
 
-  (2..2).each do |i|
+  (2..4).each do |i|
 	  config.vm.define "vm%d" % [ i ] do |node|
 
 	     node.vm.hostname="vm%d" % [i]
