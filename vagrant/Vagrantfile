@@ -20,14 +20,14 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
   config.vm.box = "ubuntu/xenial64"
-
+  master_ip=vagrant_config["base_ip"] % [1]
 
 
   config.vm.define "vm1" do |vm1|
 
 
 
-     vm1.vm.network :private_network, ip: vagrant_config["base_ip"] % [0]
+     vm1.vm.network :private_network, ip: master_ip
      vm1.vm.hostname="vm1"
 
 
@@ -35,10 +35,10 @@ Vagrant.configure("2") do |config|
     vm1.vm.provision "file", source: "../master/.", destination: "/tmp/master"
     vm1.vm.provision "file", source: "../minion/.", destination: "/tmp/minion"
 
-  vm1.vm.provision "shell", inline: <<-SHELL
+  vm1.vm.provision "shell", inline,env: {"MASTER_IP"=>master_ip} :: <<-SHELL
 
 
-    echo "192.168.56.101 salt" >> /etc/hosts
+    echo "$MASTER_IP salt" >> /etc/hosts
     apt-get update
     apt-get install wget
     wget -O - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/latest/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
@@ -65,8 +65,8 @@ begin
 	     node.vm.hostname="vm%d" % [i]
 	     node.vm.network :private_network, ip: vagrant_config["base_ip"] % [i]
        node.vm.provision "file", source: "../minion/.", destination: "/tmp/minion"
-	     node.vm.provision "shell", inline: <<-SHELL
-             echo "192.168.56.101 salt" >> /etc/hosts
+	     node.vm.provision "shell", inline, env: {"MASTER_IP"=>master_ip} : <<-SHELL
+             echo "$MASTER_IP salt" >> /etc/hosts
              apt-get update
              apt-get install wget
              wget -O - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/latest/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
