@@ -1,0 +1,6 @@
+---
+configs:
+    use: 'vbox'
+    vbox:
+        vm_count: 4
+        base_ip: "192.168.56.%d"
