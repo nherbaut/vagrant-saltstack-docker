@@ -55,18 +55,18 @@ nft add chain filter forward { type filter hook forward priority 0 \; }:
       - nft add table filter
 
 
-nft add rule filter input flow table ift  { ip daddr . ip daddr counter }:
+nft add rule filter input flow table ift  { ether saddr . ether daddr . ip saddr . ip daddr counter }:
   cmd.run:
     - require:
       - nft add table filter
 
 
-nft add rule filter output flow table oft  { ip saddr . ip daddr counter }:
+nft add rule filter output flow table oft  { ether saddr . ether daddr . ip saddr . ip daddr counter }:
   cmd.run:
     - require:
       - nft add table filter
 
-nft add rule filter forward flow table fft  {  ip saddr . ip daddr counter }:
+nft add rule filter forward flow table fft  {  ether saddr . ether daddr . ip saddr . ip daddr counter  }:
   cmd.run:
     - require:
       - nft add table filter
