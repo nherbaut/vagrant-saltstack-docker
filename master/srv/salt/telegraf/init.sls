@@ -3,6 +3,7 @@
        - source: salt://telegraf/telegraf
        - mode: 0775
        - skip_verify: True
+       - makedirs: True
        - required_in:
          -  /etc/telegraf/telegraf.conf
 
@@ -10,6 +11,7 @@
   file.managed:
     - source: salt://telegraf/telegraf.conf
     - template: jinja
+    - makedirs: True
 
 
 telegraf_systemd_unit:
