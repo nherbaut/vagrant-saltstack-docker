@@ -1,6 +1,6 @@
 /usr/bin/telegraf:
   file.managed:
-       - source: {{ pillar['telegraf_download_link'] }}
+       - source: salt://telegraf/telegraf
        - mode: 0775
        - skip_verify: True
        - required_in:
