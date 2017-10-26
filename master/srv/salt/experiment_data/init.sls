@@ -1,3 +1,3 @@
 /root/docker-compose.yaml:
   file.managed:
-    - source salt://experiment_data/docker-compose.yaml
+    - source:  salt://experiment_data/docker-compose.yaml
