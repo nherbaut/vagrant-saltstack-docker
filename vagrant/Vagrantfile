@@ -36,6 +36,7 @@ Vagrant.configure("2") do |config|
 
 
   master_ip=vagrant_config["base_ip"] % [101]
+  nic_name=vagrant_config["nic_name"] 
 
 
   config.vm.define "vm1" do |vm1|
@@ -50,7 +51,7 @@ Vagrant.configure("2") do |config|
     vm1.vm.provision "file", source: "../master/.", destination: "/tmp/master"
     vm1.vm.provision "file", source: "../minion/.", destination: "/tmp/minion"
 
-  vm1.vm.provision "shell",  env: {"MASTER_IP"=>master_ip}, inline: <<-SHELL
+  vm1.vm.provision "shell",  env: {"MASTER_IP"=>master_ip, "NIC_NAME" => nic_name}, inline: <<-SHELL
     echo "$MASTER_IP salt" >> /etc/hosts
     apt-get update
     apt-get install wget
@@ -61,6 +62,8 @@ Vagrant.configure("2") do |config|
 
     sudo cp -r /tmp/master/* /
     sudo cp -r /tmp/minion/* /
+
+    echo "mine_functions:\n  network.interfaces: []\n  network.ip_addrs:\n     - $NIC_NAME "  >> /etc/salt/minion
 
 
     sudo service salt-master restart
@@ -78,7 +81,7 @@ begin
 	     node.vm.hostname="vm%d" % [i]
 	     node.vm.network :private_network, ip: vagrant_config["base_ip"] % [100+i]
        node.vm.provision "file", source: "../minion/.", destination: "/tmp/minion"
-	     node.vm.provision "shell", env: {"MASTER_IP"=>master_ip}, inline: <<-SHELL
+	     node.vm.provision "shell", env: {"MASTER_IP"=>master_ip, "NIC_NAME" => nic_name}, inline: <<-SHELL
              echo "$MASTER_IP salt" >> /etc/hosts
              apt-get update
              apt-get install wget
@@ -89,7 +92,7 @@ begin
              sudo cp -r /tmp/minion/* /
 
 
-
+             echo "mine_functions:\n  network.interfaces: []\n  network.ip_addrs:\n     - $NIC_NAME "  >> /etc/salt/minion
              sudo service salt-minion restart
 	     SHELL
 
