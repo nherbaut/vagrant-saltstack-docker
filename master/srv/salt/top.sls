@@ -7,4 +7,6 @@ base:
     - telegraf
   "vm1":
     - experiment_data
-    - tickstack
+    - tickstack:
+      - require:
+        - sls: docker

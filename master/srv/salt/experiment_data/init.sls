@@ -7,6 +7,7 @@
 /root/launch_stack.sh:
   file.managed:
     - source: salt://experiment_data/launch_stack.sh
+    - template: jinja
     - mode: 0755
 
 
