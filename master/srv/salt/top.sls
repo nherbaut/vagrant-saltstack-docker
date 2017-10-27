@@ -7,4 +7,4 @@ base:
     - telegraf
   "vm1":
     - experiment_data
-    - influxdb
+    - tickstack
