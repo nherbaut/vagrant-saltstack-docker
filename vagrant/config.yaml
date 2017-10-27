@@ -2,10 +2,10 @@
 configs:
     use: 'libvirt'
     virtualbox:
-        vm_count: 0
+        minion_count: 0
         base_ip: "192.168.56.%d"
         base_box: "ubuntu/xenial"
     libvirt:
-        vm_count: 0
+        minion_count: 0
         base_ip: "10.0.0.%d"
         base_box: "generic/ubuntu1604"

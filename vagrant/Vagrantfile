@@ -71,7 +71,7 @@ Vagrant.configure("2") do |config|
 
 
 begin
-  (2..(vagrant_config["vm_count"]+1)).each do |i|
+  (2..(vagrant_config["minion_count"]+1)).each do |i|
 	  config.vm.define "vm%d" % [ i ] do |node|
 
 
