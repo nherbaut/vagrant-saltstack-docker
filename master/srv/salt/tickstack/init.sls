@@ -1,3 +1,6 @@
+include:
+  - docker
+
 python-pip:
   pkg.installed
 
@@ -10,11 +13,15 @@ docker-py:
 chronograf:latest:
   cmd.run:
     - name: docker pull chronograf:latest
+    - require:
+      - sls: docker
 
 
 influxdb:latest:
    cmd.run:
-     - name docker pull influxdb:latest
+     - name: docker pull influxdb:latest
+     - require:
+       - sls: docker
 
 
 
@@ -27,8 +34,8 @@ chronograf:
     - environment:
       - INFLUXDB_URL=http://{{ salt['mine.get']('vm1', 'network.ip_addrs')['vm1'][0] }}:8086
     - require:
-      - docker_image: chronograf:latest
-      - docker_container: influxdb
+      - chronograf:latest
+      - influxdb:latest
 
 influxdb:
   docker_container.running:
@@ -38,4 +45,5 @@ influxdb:
         - {{ salt['mine.get']('vm1', 'network.ip_addrs')['vm1'][0] }}:8086:8086
       - require:
         - influxdb:latest
+        
 
