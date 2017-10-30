@@ -16,6 +16,8 @@ chronograf:latest:
 influxdb:latest:
   docker_image:
     - present
+    - require:
+      - docker-py
 
 
 
