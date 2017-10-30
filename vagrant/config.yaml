@@ -6,8 +6,12 @@ configs:
         base_ip: "192.168.56.%d"
         base_box: "ubuntu/xenial"
         nic_name: "enp0s8"
+        cpus: 2
+        memory: 2048
     libvirt:
-        minion_count: 1
-        base_ip: "10.0.0.%d"
+        minion_count: 5
+        base_ip: "10.0.56.%d"
         base_box: "generic/ubuntu1604"
         nic_name: "eth1"
+        cpus: 2
+        memory: 2048
