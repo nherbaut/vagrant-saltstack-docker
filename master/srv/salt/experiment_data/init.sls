@@ -17,3 +17,9 @@
     - source: salt://experiment_data/kill_stack.sh
     - mode: 0755
 
+/root/reset_monitoring.sh:
+  file.managed:
+    - source: salt://experiment_data/reset_monitoring.sh
+    - mode: 0755
+
+

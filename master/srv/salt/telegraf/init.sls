@@ -1,3 +1,6 @@
+/var/log/telegraf/:
+  file.directory
+
 /usr/bin/telegraf:
   file.managed:
        - source: salt://telegraf/telegraf
