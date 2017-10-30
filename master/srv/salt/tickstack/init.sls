@@ -8,16 +8,13 @@ docker-py:
 
 
 chronograf:latest:
-  docker_image.present:
-    - require:
-      - docker-py
+  cmd.run:
+    - name: docker pull chronograf:latest
 
 
 influxdb:latest:
-  docker_image:
-    - present
-    - require:
-      - docker-py
+   cmd.run:
+     - name docker pull influxdb:latest
 
 
 

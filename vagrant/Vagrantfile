@@ -42,7 +42,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "vm1" do |vm1|
 
 
-
+   vm1.vm.synced_folder '../master/srv', '/srv', type: 'nfs'
    vm1.vm.network :private_network, ip: master_ip
    vm1.vm.hostname="vm1"
 
@@ -60,8 +60,8 @@ Vagrant.configure("2") do |config|
     apt-get update
     apt-get install salt-master salt-minion python-pygit2 python-git --yes
 
-    sudo cp -r /tmp/master/* /
-    sudo cp -r /tmp/minion/* /
+    sudo cp -r /tmp/master/etc/* /etc/
+    sudo cp -r /tmp/minion/etc/* /etc/
 
     echo "mine_functions:\n  network.interfaces: []\n  network.ip_addrs:\n     - $NIC_NAME "  >> /etc/salt/minion
 
@@ -89,8 +89,8 @@ begin
              echo "deb http://repo.saltstack.com/apt/ubuntu/16.04/amd64/latest xenial main" >> /etc/apt/sources.list.d/saltstack.list
              apt-get update && apt-get install salt-minion python-pygit2 python-git --yes
 
-             sudo cp -r /tmp/minion/* /
 
+             cp -r /tmp/minion/etc/* /etc/
 
              echo "mine_functions:\n  network.interfaces: []\n  network.ip_addrs:\n     - $NIC_NAME "  >> /etc/salt/minion
              sudo service salt-minion restart

@@ -9,7 +9,7 @@ configs:
         cpus: 2
         memory: 2048
     libvirt:
-        minion_count: 5
+        minion_count: 0
         base_ip: "10.0.56.%d"
         base_box: "generic/ubuntu1604"
         nic_name: "eth1"
